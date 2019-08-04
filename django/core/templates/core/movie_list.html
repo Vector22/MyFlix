@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+All the movies
+{% endblock %}
+
+{% block body %}
+<ul>
+    {% for movie in movies %}
+    <li>
+        <a href="{{ movie.get_absolute_url }}">
+            {{ movie.title }} ({{ movie.year }})
+        </a>
+    </li>
+    {% empty %}
+    <li>
+        No movie yet.
+    </li>
+    {% endfor %}
+</ul>
+
+<p>
+    {% include "core/pagination.html" with page=page_obj %}
+</p>
+
+<p>
+    Using https?
+    {{ request.is_secure|yesno }}
+</p>
+{% endblock %}

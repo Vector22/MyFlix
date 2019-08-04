@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ movie.title }} - {{ block.super }}
+{% endblock %}
+
+{% block body %}
+<h1> {{ movie }} </h1>
+
+<p class="description">
+    {{ movie.description }}
+</p>
+{% endblock %}
+
+{% block aside %}
+<div>
+    This movie is rated:
+    <span class="badge badge-primary">
+        {{ movie.get_rating_display }}
+    </span>
+</div>
+{% endblock %}

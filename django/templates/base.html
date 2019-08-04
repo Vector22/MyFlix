@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <title>
+        {% block title %}
+        My movie database
+        {% endblock %}
+    </title>
+
+    <style>
+        .masthead {
+            background-color: #eeeeee;
+            margin-bottom: 1em;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="masthead">
+        <div class="container">
+            <nav class="nav">
+                <div class="navbar-brand">
+                    My movie database
+                </div>
+
+                <a class="nav-link" href="{% url 'core:movie_list' %}">
+                    Movies list
+                </a>
+            </nav>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <section class="col-md-8 main-body">
+                {% block body %}
+                {% endblock %}
+            </section>
+            <aside class="col-md-3 offset-md-1">
+                {% block aside %}
+                {% endblock %}
+            </aside>
+        </div>
+
+    </div>
+</body>
+
+</html>
