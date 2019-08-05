@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+<strong>{{ person.first_name }} {{ person.last_name }}</strong>
+{% endblock %}
+
+{% block body %}
+<h1>{{ person }}</h1>
+
+<h2>Actor</h2>
+<ul>
+    {% for role in person.role_set.all %}
+    <li>
+        <a href="{{ role.movie.get_absolute_url }}">
+            {{ role.movie }}
+        </a>:
+        {{ role.name }}
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Writer</h2>
+<ul>
+    {% for movie in person.writing_credits.all %}
+    <li>
+        <a href="{{ movie.get_absolute_url }}">
+            {{ movie }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Director</h2>
+<ul>
+    {% for person.directed.all %}
+    <li>
+        <a href="{{ movie.get_absolute_url }}">
+            {{ movie }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
