@@ -31,15 +31,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Locals apps
+    'core.apps.CoreConfig',
+    'user.apps.UserConfig',
+
+    # Builtin apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Locals apps
-    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Authentication urls settings
+LOGIN_REDIRECT_URL = 'core:movie_list'
