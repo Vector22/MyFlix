@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-<strong>{{ person.first_name }} {{ person.last_name }}</strong>
+{{ person.first_name }} {{ person.last_name }}
 {% endblock %}
 
 {% block body %}
@@ -32,7 +32,7 @@
 
 <h2>Director</h2>
 <ul>
-    {% for person.directed.all %}
+    {% for movie in person.directed.all %}
     <li>
         <a href="{{ movie.get_absolute_url }}">
             {{ movie }}
