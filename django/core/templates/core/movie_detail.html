@@ -1,22 +1,37 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ movie.title }} - {{ block.super }}
+{{ object.title }} - {{ block.super }}
 {% endblock %}
 
 {% block body %}
-<h1> {{ movie }} </h1>
+<h1> {{ object }} </h1>
 
 <p class="description">
-    {{ movie.description }}
+    {{ object.description }}
 </p>
 {% endblock %}
 
 {% block aside %}
-<div>
+<div class="movie-rate">
     This movie is rated:
     <span class="badge badge-primary">
-        {{ movie.get_rating_display }}
+        {{ object.get_rating_display }}
     </span>
+</div>
+
+<div>
+    {% if vote_form %}
+    <form method="POST" action="{{ vote_form_url }}">
+        {% csrf_token %}
+        {{ vote_form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            Vote
+        </button>
+    </form>
+    {% else %}
+    Login to vote this movie
+    {% endif %}
 </div>
 {% endblock %}

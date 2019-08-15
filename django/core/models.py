@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
 
 class MovieManager(models.Manager):
@@ -145,6 +146,24 @@ class Role(models.Model):
         )
 
 
+class VoteManager(models.Manager):
+    """
+        Check if a user model has a related Vote model
+        instance for a given Movie model instance.
+        If not, it will return a unsaved blank Vote object
+    """
+
+    def get_vote_or_unsaved_blank_vote(self, user, movie):
+        try:
+            return Vote.objects.get(
+                user=user, movie=movie
+            )
+        except Vote.DoesNotExist:
+            # Return an usaved (Created by the object constructor)
+            # blank Vote instance
+            return Vote(user=user, movie=movie)
+
+
 class Vote(models.Model):
 
     UP = 1
@@ -159,6 +178,9 @@ class Vote(models.Model):
                              on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     voted_on = models.DateField(auto_now=True)
+
+    # Replace the default manager by our custom manager
+    objects = VoteManager()
 
     class Meta:
         unique_together = ('user', 'movie')

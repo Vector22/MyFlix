@@ -133,3 +133,4 @@ STATIC_URL = '/static/'
 
 # Authentication urls settings
 LOGIN_REDIRECT_URL = 'core:movie_list'
+LOGIN_URL = 'user:login'
