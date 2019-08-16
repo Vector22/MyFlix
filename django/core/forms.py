@@ -18,7 +18,7 @@ class VoteForm(forms.ModelForm):
         disabled=True
     )
 
-    vote = forms.ChoiceField(
+    value = forms.ChoiceField(
         label='Vote',
         widget=forms.RadioSelect,
         choices=Vote.VALUE_CHOICES
@@ -26,4 +26,4 @@ class VoteForm(forms.ModelForm):
 
     class Meta:
         model = Vote
-        fields = ('vote', 'user', 'movie')
+        fields = ('value', 'user', 'movie')

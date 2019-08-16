@@ -18,7 +18,7 @@ class MovieList(ListView):
 
 
 class MovieDetail(DetailView):
-    queryset = Movie.objects.all_related_persons()
+    queryset = Movie.objects.all_related_persons_and_score()
     # We can omit the template_name because django
     # search the associated template with this pattern
     # 'app_name/ModelName_detail.html'

@@ -21,6 +21,12 @@
 </div>
 
 <div>
+    <h2>
+        Score: {{ object.score | default_if_none:"Not voted yet" }}
+    </h2>
+</div>
+
+<div>
     {% if vote_form %}
     <form method="POST" action="{{ vote_form_url }}">
         {% csrf_token %}

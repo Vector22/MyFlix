@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+from django.db.models.aggregates import Sum
 from django.conf import settings
 
 
@@ -15,6 +16,11 @@ class MovieManager(models.Manager):
         qs = self.get_queryset()
         qs = qs.select_related('director')
         qs = qs.prefetch_related('writers', 'actors')
+        return qs
+
+    def all_related_persons_and_score(self):
+        qs = self.all_related_persons()
+        qs = qs.annotate(score=Sum('vote__value'))
         return qs
 
 
@@ -173,7 +179,7 @@ class Vote(models.Model):
         (DOWN, "👎"),
     )
 
-    value = models.SmallIntegerField(choices=VALUE_CHOICES)
+    value = models.SmallIntegerField(choices=VALUE_CHOICES, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
