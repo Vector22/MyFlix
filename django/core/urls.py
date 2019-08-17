@@ -12,6 +12,8 @@ urlpatterns = [
          name='create_vote'),
     path('movie/<int:movie_id>/vote/<int:pk>',
          views.UpdateVote.as_view(), name='update_vote'),
+    path('movie/<int:movie_id>/image/upload',
+         views.MovieImageUpload.as_view(), name='movie_image_upload'),
     path('person/<int:pk>', views.PersonDetail.as_view(),
          name='person_detail'),
 ]

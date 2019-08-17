@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
 from core.models import Movie, Person, Vote
-from core.forms import VoteForm
+from core.forms import VoteForm, MovieImageForm
 
 
 class MovieList(ListView):
@@ -17,12 +17,43 @@ class MovieList(ListView):
     paginate_by = 3
 
 
+class MovieImageUpload(LoginRequiredMixin, CreateView):
+    form_class = MovieImageForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['user'] = self.request.user.id
+        initial['movie'] = self.kwargs['movie_id']
+        return initial
+
+    def get_success_url(self):
+        movie_id = self.kwargs['movie_id']
+        movie_detail_url = reverse(
+            'core:movie_detail',
+            kwargs={'pk': movie_id}
+        )
+        return movie_detail_url
+
+    def render_to_response(self, context, **response_kwargs):
+        movie_id = self.kwargs['movie_id']
+        movie_detail_url = reverse(
+            'core:movie_detail',
+            kwargs={'pk': movie_id}
+        )
+        return redirect(to=movie_detail_url)
+
+
 class MovieDetail(DetailView):
     queryset = Movie.objects.all_related_persons_and_score()
     # We can omit the template_name because django
     # search the associated template with this pattern
     # 'app_name/ModelName_detail.html'
     # template_name = 'core/movie_detail.html'
+
+    def movie_image_form(self):
+        if self.request.user.is_authenticated:
+            return MovieImageForm()
+        return None
 
     def get_context_data(self, **kwargs):
         """
@@ -33,6 +64,7 @@ class MovieDetail(DetailView):
         """
 
         cntx = super().get_context_data(**kwargs)
+        cntx['image_form'] = self.movie_image_form()
         # If the user is authenticated
         if self.request.user.is_authenticated:
             # Try to retrieve the vote

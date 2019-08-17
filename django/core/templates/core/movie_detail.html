@@ -10,6 +10,16 @@
 <p class="description">
     {{ object.description }}
 </p>
+<p class="lead">
+    {{ object.plot }}
+</p>
+<ul class="list-inline">
+    {% for i in object.movieimage_set.all %}
+    <li class="list-inline-item">
+        <img src="{{ i.image.url }}" />
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}
 
 {% block aside %}
@@ -40,4 +50,21 @@
     Login to vote this movie
     {% endif %}
 </div>
+
+{% if image_form %}
+<div>
+    <h2>Upload new image</h2>
+
+    <form method="POST" action="{% url 'core:movie_image_upload' movie_id=object.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ image_form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            Upload
+        </button>
+    </form>
+
+</div>
+{% endif %}
+
 {% endblock %}
